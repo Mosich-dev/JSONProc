@@ -53,7 +53,7 @@ func WriteJSON(w http.ResponseWriter, status int, data any, headers ...http.Head
 	return nil
 }
 
-func ErrorJSON(w http.ResponseWriter, err error, status ...int) error {
+func ErrorJSON(w http.ResponseWriter, err error, status ...int) {
 	statusCode := http.StatusBadRequest
 
 	if len(status) > 0 {
@@ -63,6 +63,8 @@ func ErrorJSON(w http.ResponseWriter, err error, status ...int) error {
 	var payload JsonResponse
 	payload.Error = true
 	payload.Message = err.Error()
-
-	return WriteJSON(w, statusCode, payload)
+	e := WriteJSON(w, statusCode, payload)
+	if e != nil {
+		panic(e)
+	}
 }
