@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-const MaxBytesToRead := 1048576 // = 1 Megabyte
+const MaxBytesToRead = 1048576 // = 1 Megabyte
 
 type JsonResponse struct {
 	Error   bool   `json:"error"`
