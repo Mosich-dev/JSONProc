@@ -7,15 +7,17 @@ import (
 	"net/http"
 )
 
-const maxBytesToRead = 1048576 // = 1 Megabyte
+const MaxBytesToRead = 1048576 // = 1 Megabyte
 
-type jsonResponse struct {
+type Config struct{}
+
+type JsonResponse struct {
 	Error   bool   `json:"error"`
 	Message string `json:"message"`
 	Data    any    `json:"data,omitempty"`
 }
 
-func (app Config) readJSON(w http.ResponseWriter, r *http.Request, data any) error {
+func (app Config) ReadJSON(w http.ResponseWriter, r *http.Request, data any) error {
 	r.Body = http.MaxBytesReader(w, r.Body, maxBytesToRead)
 	dec := json.NewDecoder(r.Body)
 	err := dec.Decode(data)
@@ -32,7 +34,7 @@ func (app Config) readJSON(w http.ResponseWriter, r *http.Request, data any) err
 	return nil
 }
 
-func (app Config) writeJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
+func (app Config) WriteJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
 	out, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -52,7 +54,7 @@ func (app Config) writeJSON(w http.ResponseWriter, status int, data any, headers
 	return nil
 }
 
-func (app Config) errorJSON(w http.ResponseWriter, err error, status ...int) error {
+func (app Config) ErrorJSON(w http.ResponseWriter, err error, status ...int) error {
 	statusCode := http.StatusBadRequest
 
 	if len(status) > 0 {
