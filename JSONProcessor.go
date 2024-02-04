@@ -15,9 +15,6 @@ type JsonResponse struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-func SetMaxBytesToRead(int64 max) {
-	MaxBytesToRead = max
-}
 
 func ReadJSON(w http.ResponseWriter, r *http.Request, data any) error {
 	r.Body = http.MaxBytesReader(w, r.Body, MaxBytesToRead)
