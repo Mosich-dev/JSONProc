@@ -20,7 +20,7 @@ func SetMaxBytesToRead(int64 max) {
 }
 
 func ReadJSON(w http.ResponseWriter, r *http.Request, data any) error {
-	r.Body = http.MaxBytesReader(w, r.Body, maxBytesToRead)
+	r.Body = http.MaxBytesReader(w, r.Body, MaxBytesToRead)
 	dec := json.NewDecoder(r.Body)
 	err := dec.Decode(data)
 	if err != nil {
